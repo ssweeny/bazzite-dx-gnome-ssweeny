@@ -9,16 +9,35 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+# Install pop-shell extension
+dnf5 install -y \
+    gnome-shell-extension-pop-shell \
+    gnome-shell-extension-pop-shell-shortcut-overrides
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+# Add a few system76 packages
+dnf5 copr enable -y szydell/system76
+dnf5 install -y \
+    system76-power \
+    system76-firmware
+dnf5 copr disable -y szydell/system76
 
-#### Example for enabling a System Unit File
+# Add system76-thelio-io driver
+dnf copr enable -y ssweeny/system76-hwe
+KERNEL_VERSION="$(rpm -q --queryformat="%{EVR}.%{ARCH}" kernel-core)"
+skopeo copy "docker://ghcr.io/ublue-os/akmods-extra:bazzite-$(rpm -E %fedora)-${KERNEL_VERSION}" dir:/tmp/akmods
+AKMODS_TARGZ=$(jq -r '.layers[].digest' </tmp/akmods/manifest.json | cut -d : -f 2)
+tar -xvzf /tmp/akmods/"$AKMODS_TARGZ" -C /tmp/
+dnf5 install -y /tmp/rpms/kmods/*system76*.rpm
+dnf copr disable -y ssweeny/system76-hwe
 
-systemctl enable podman.socket
+# Install COSMIC desktop as well because why not
+dnf5 copr enable -y ryanabx/cosmic-epoch
+dnf5 -y install @cosmic-desktop @cosmic-desktop-apps
+dnf5 copr disable -y ryanabx/cosmic-epoch
+
+dnf5 clean all
+
+# Set up System76 power and firmware deaemons
+systemctl enable com.system76.PowerDaemon.service
+systemctl enable system76-firmware-daemon
+systemctl mask upower.service
