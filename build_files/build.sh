@@ -4,11 +4,6 @@ set -ouex pipefail
 
 ### Install packages
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
-
 # Install pop-shell extension
 dnf5 install -y \
     gnome-shell-extension-pop-shell \
@@ -20,6 +15,17 @@ dnf5 install -y \
     system76-power \
     system76-firmware
 dnf5 copr disable -y szydell/system76
+
+# Add a few goodies from bluefin
+dnf5 copr enable -y ublue-os/packages
+dnf5 install -y \
+    bluefin-backgrounds
+dnf5 copr disable -y ublue-os/packages
+
+dnf5 copr enable -y ublue-os/staging
+dnf5 install -y \
+    gnome-shell-extension-tailscale-gnome-qs
+dnf5 copr disable -y ublue-os/staging
 
 # Add system76-thelio-io driver
 dnf copr enable -y ssweeny/system76-hwe
