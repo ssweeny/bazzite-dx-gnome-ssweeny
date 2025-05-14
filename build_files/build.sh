@@ -4,10 +4,12 @@ set -ouex pipefail
 
 ### Install packages
 
-# Install pop-shell extension
+# Install a few GNOME extensions
 dnf5 install -y \
+    gnome-shell-extension-dash-to-dock \
     gnome-shell-extension-pop-shell \
-    gnome-shell-extension-pop-shell-shortcut-overrides
+    gnome-shell-extension-pop-shell-shortcut-overrides \
+    gnome-shell-extension-vertical-workspaces
 
 # Add a few system76 packages
 dnf5 copr enable -y szydell/system76
