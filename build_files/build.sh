@@ -33,7 +33,7 @@ dnf5 copr disable -y ublue-os/staging
 dnf copr enable -y ssweeny/system76-hwe
 KERNEL_VERSION="$(rpm -q --queryformat="%{EVR}.%{ARCH}" kernel-core)"
 skopeo copy "docker://ghcr.io/ublue-os/akmods-extra:bazzite-$(rpm -E %fedora)-${KERNEL_VERSION}" dir:/tmp/akmods
-AKMODS_TARGZ=$(jq -r '.layers[].digest' </tmp/akmods/manifest.json | cut -d : -f 2)
+AKMODS_TARGZ=$(jq -r '.layers[1].digest' </tmp/akmods/manifest.json | cut -d : -f 2)
 tar -xvzf /tmp/akmods/"$AKMODS_TARGZ" -C /tmp/
 dnf5 install -y /tmp/rpms/kmods/*system76*.rpm
 dnf copr disable -y ssweeny/system76-hwe
