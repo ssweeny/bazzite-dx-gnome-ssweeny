@@ -48,4 +48,6 @@ dnf5 clean all
 # Set up System76 power and firmware deaemons
 systemctl enable com.system76.PowerDaemon.service
 systemctl enable system76-firmware-daemon
-systemctl mask upower.service
+
+# system76-power conflicts with tuned
+systemctl mask tuned.service tuned-ppd.service
