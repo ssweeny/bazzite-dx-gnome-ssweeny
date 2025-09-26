@@ -39,9 +39,7 @@ dnf5 install -y /tmp/rpms/kmods/*system76*.rpm
 dnf copr disable -y ssweeny/system76-hwe
 
 # Install COSMIC desktop as well because why not
-dnf5 copr enable -y ryanabx/cosmic-epoch
 dnf5 -y install @cosmic-desktop
-dnf5 copr disable -y ryanabx/cosmic-epoch
 
 dnf5 clean all
 
