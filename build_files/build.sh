@@ -24,11 +24,6 @@ dnf5 install -y \
     bluefin-backgrounds
 dnf5 copr disable -y ublue-os/packages
 
-dnf5 copr enable -y ublue-os/staging
-dnf5 install -y \
-    gnome-shell-extension-tailscale-gnome-qs
-dnf5 copr disable -y ublue-os/staging
-
 # Add system76-thelio-io driver
 dnf copr enable -y ssweeny/system76-hwe
 KERNEL_VERSION="$(rpm -q --queryformat="%{EVR}.%{ARCH}" kernel-core)"
