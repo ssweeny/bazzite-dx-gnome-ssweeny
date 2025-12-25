@@ -18,12 +18,6 @@ dnf5 install -y \
     system76-firmware
 dnf5 copr disable -y szydell/system76
 
-# Add a few goodies from bluefin
-dnf5 copr enable -y ublue-os/packages
-dnf5 install -y \
-    bluefin-backgrounds
-dnf5 copr disable -y ublue-os/packages
-
 # Install COSMIC desktop as well because why not
 dnf5 -y install @cosmic-desktop
 
