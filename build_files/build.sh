@@ -18,7 +18,7 @@ dnf5 install -y \
     system76-firmware
 dnf5 copr disable -y szydell/system76
 
-# Install COSMIC desktop as well because why not
+# Install COSMIC desktop
 dnf5 -y install @cosmic-desktop
 
 dnf5 clean all
