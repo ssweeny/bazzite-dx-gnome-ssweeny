@@ -3,7 +3,7 @@ FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-FROM ghcr.io/ublue-os/bazzite-dx-gnome:stable@sha256:1a650f8f039b92c42cbfe1c993e961fbc12d6607bb9dcd041035ef1f53e66992
+FROM ghcr.io/ublue-os/bazzite:unstable
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -24,7 +24,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh && \
     ostree container commit
-    
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
